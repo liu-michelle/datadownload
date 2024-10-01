@@ -1,87 +1,144 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Surveillance Project</title>
     <style>
-        body {
-            position: relative;
-            overflow: hidden;
-            font-family: "Times New Roman", sans-serif;
-            background: #f9b1c9;
-            height: 100%;
-            margin: 0;   
-            display: flex;
-            justify-content: center;   
-            align-items: center;  
-        }
-        
-        .h2 {
-            font-size: 5vw;
-            margin: auto;
-            width: 50%;
-            text-align: center;
-            background-color: rgba(255, 255, 255, 0.7);
-            box-shadow: gray 10px 10px 15px;
-            border: 1px solid gray;
-            cursor: pointer;
-        }
+      body {
+        position: relative;
+        overflow: hidden;
+        font-family: "Times New Roman", sans-serif;
+        height: 100%;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
 
-        .h2:hover {
-            transform: scale(1.1);
-            filter: invert(1);
-            box-shadow: green 3px 5px 3px;
-            font-variant: small-caps;
-        }
+      .h2 {
+        font-size: 5vw;
+        margin: auto;
+        width: 50%;
+        text-align: center;
+        background-color: rgba(255, 255, 255, 0.7);
+        box-shadow: gray 10px 10px 15px;
+        border: 1px solid gray;
+        cursor: pointer;
+      }
 
-        img {
-            position: absolute;
-            max-width: 200px;
-            margin: 10px;
-        }
+      .h2:hover {
+        transform: scale(1.1);
+        filter: invert(1);
+        box-shadow: black 3px 5px 3px;
+        font-variant: small-caps;
+      }
+
+      img {
+        position: absolute;
+        max-width: 200px;
+        margin: 10px;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
 
     <h2 class="h2">ABOUT ME</h2>
 
     <script>
-        const urls = "urls.csv";
+      document.querySelector('.h2').addEventListener('click', function() {
+        fetch('urls.csv')
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
+            }
+            return response.text();
+          })
+          .then(data => {
+            displayImagesFromCSV(data);
+          })
+      });
 
-        document.querySelector('.h2').addEventListener('click', function() {
-            displayImagesFromCSV(urls);
+      document.querySelector('.h2').addEventListener('click', function() {
+        fetch('pinterest.csv')
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
+            }
+            return response.text();
+          })
+
+          .then(data => {
+              displayTextFromCSV(data);
+          })
+      });
+
+      document.querySelector('.h2').addEventListener('click', function() {
+        fetch('linkedin.csv')
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
+            }
+            return response.text();
+          })
+
+          .then(data => {
+              displayTextFromCSV(data);
+          })
+      });
+
+      function displayImagesFromCSV(csvData) {
+        const lines = csvData.split('\n');
+        lines.forEach((line, index) => {
+          const imageUrl = line.trim();
+          let time = 100;
+          if (imageUrl) {
+            setTimeout(() => {
+              const img = document.createElement('img');
+              img.style.border = "1px solid black";
+
+              const p = document.createElement("p");
+              p.textContent = "ABOUT ME";
+              p.style.fontSize = "20px";
+              p.style.fontWeight = "bold";
+              p.style.backgroundColor = "#ffffff";
+              p.style.border = "5px solid black";
+
+              img.src = imageUrl;
+
+              img.style.top = Math.random() * (window.innerHeight - 200) + 'px';
+              img.style.left = Math.random() * (window.innerWidth - 200) + 'px';
+
+              document.body.appendChild(img);
+              document.body.appendChild(p);
+            }, index * time);
+          }
         });
+      }
 
-        function displayImagesFromCSV(csvData) {
-            const lines = csvData.split('\n');
-            lines.forEach((line, index) => {
-                const imageUrl = line.trim();
-                let time = 100;
-                if (imageUrl) {
-                    setTimeout(() => {
-                        const img = document.createElement('img');
-                        img.style.border = "1px solid black";
-                        
-                        const p = document.createElement("p");
-                        p.textContent = "ABOUT ME";
-                        p.style.fontSize = "20px";
-                        p.style.fontWeight = "bold";
-                        p.style.backgroundColor = "#ffffff";
-                        p.style.border = "5px solid black";
+      function displayTextFromCSV(csvData) {
+        const lines = csvData.split('\n');
+        lines.forEach((line, index) => {
+          const textContent = line.trim();
+          if (textContent) {
+            setTimeout(() => {
+              const textElement = document.createElement("div");
+              const randomColor = `rgb(${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)})`;
+              textElement.style.color = randomColor;
+              textElement.textContent = textContent;
+              const randomFontSize = Math.floor(Math.random() * (36 - 16 + 1)) + 16 + 'px';
+              textElement.style.fontSize = randomFontSize;
+              textElement.style.fontWeight = "bold";
+              textElement.style.position = "absolute";
+              textElement.style.fontVariant = "small-caps";
+              textElement.style.top = Math.random() * (window.innerHeight - 100) + 'px';
+              textElement.style.left = Math.random() * (window.innerWidth - 200) + 'px';
 
-                        img.src = imageUrl;
-
-                        img.style.top = Math.random() * (window.innerHeight - 200) + 'px';
-                        img.style.left = Math.random() * (window.innerWidth - 200) + 'px';
-
-                        document.body.appendChild(img);
-                        document.body.appendChild(p);
-                    }, index * time);
-                }
-            });
-        }
+              document.body.appendChild(textElement);
+            }, 500);
+          }
+        });
+      }
     </script>
-
-</body>
+  </body>
 </html>
