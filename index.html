@@ -89,9 +89,9 @@
 
       function displayImagesFromCSV(csvData) {
         const lines = csvData.split('\n');
+        const time = 100;
         lines.forEach((line, index) => {
           const imageUrl = line.trim();
-          let time = 100;
           if (imageUrl) {
             setTimeout(() => {
               const img = document.createElement('img');
@@ -118,16 +118,18 @@
 
       function displayTextFromCSV(csvData) {
         const lines = csvData.split('\n');
+        const time = 200;
         lines.forEach((line, index) => {
           const textContent = line.trim();
           if (textContent) {
             setTimeout(() => {
               const textElement = document.createElement("div");
-              const randomColor = `rgb(${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)})`;
-              textElement.style.color = randomColor;
+              textElement.style.color = "black";
               textElement.textContent = textContent;
               const randomFontSize = Math.floor(Math.random() * (36 - 16 + 1)) + 16 + 'px';
               textElement.style.fontSize = randomFontSize;
+              textElement.style.backgroundColor = "#ffffff";
+              textElement.style.border = "1px solid black";
               textElement.style.fontWeight = "bold";
               textElement.style.position = "absolute";
               textElement.style.fontVariant = "small-caps";
@@ -135,7 +137,7 @@
               textElement.style.left = Math.random() * (window.innerWidth - 200) + 'px';
 
               document.body.appendChild(textElement);
-            }, 500);
+            }, index * time);
           }
         });
       }
