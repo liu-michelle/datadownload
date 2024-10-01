@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Surveillance Project</title>
+    <style>
+      body {
+        position: relative;
+        overflow: hidden;
+        height: 100vh;
+        font-family: "Times New Roman", sans-serif;
+        background: #aabbcc;
+      }
+      
+      .h2 {
+        font-size: 5vw;
+        margin: auto;
+        width: 55%;
+        top: 50%;
+        text-align: center;
+        background-color: rgba(255, 255, 255, 0.7);
+        box-shadow: gray 10px 10px 15px;
+        border: 1px solid gray;
+        border-radius: 10px 10px;
+      }
+
+      .h2:hover {
+        transform: scale(1.1);
+        filter: invert(1);
+        box-shadow: black 3px 5px 3px;
+        font-variant: small-caps;
+      }
+
+      img {
+        position: absolute;
+        max-width: 200px;
+        margin: 10px;
+      }
+    </style>
+  </head>
+  <body>
+
+    <h2 class="h2">MICHELLE LIU</h2>
+    <input type="file" id="csvFile" accept=".csv">
+
+    <script>
+      document.getElementById('csvFile').addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+
+          reader.onload = function(e) {
+            const csvData = e.target.result;
+            displayImagesFromCSV(csvData);
+          };
+
+          reader.readAsText(file);
+        }
+      });
+
+      function displayImagesFromCSV(csvData) {
+        const lines = csvData.split('\n');
+        lines.forEach((line, index) => {
+          const imageUrl = line.trim();
+          if (imageUrl) {
+            setTimeout(() => {
+              const img = document.createElement('img');
+              const text = document.createTextNode("ABOUT ME");
+
+              img.src = imageUrl;
+              img.alt = "Image from CSV";
+
+              img.style.top = Math.random() * (window.innerHeight - 200) + 'px';
+              img.style.left = Math.random() * (window.innerWidth - 200) + 'px';
+
+              document.body.appendChild(img);
+              document.body.appendChild(text);
+            }, index * 100);
+          }
+        });
+      }
+    </script>
+
+  </body>
+</html>
