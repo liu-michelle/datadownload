@@ -1,86 +1,87 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Surveillance Project</title>
     <style>
-      body {
-        position: relative;
-        overflow: hidden;
-        height: 100vh;
-        font-family: "Times New Roman", sans-serif;
-        background: #aabbcc;
-      }
-      
-      .h2 {
-        font-size: 5vw;
-        margin: auto;
-        width: 55%;
-        top: 50%;
-        text-align: center;
-        background-color: rgba(255, 255, 255, 0.7);
-        box-shadow: gray 10px 10px 15px;
-        border: 1px solid gray;
-        border-radius: 10px 10px;
-      }
+        body {
+            position: relative;
+            overflow: hidden;
+            font-family: "Times New Roman", sans-serif;
+            background: #f9b1c9;
+            height: 100%;
+            margin: 0;   
+            display: flex;
+            justify-content: center;   
+            align-items: center;  
+        }
+        
+        .h2 {
+            font-size: 5vw;
+            margin: auto;
+            width: 50%;
+            text-align: center;
+            background-color: rgba(255, 255, 255, 0.7);
+            box-shadow: gray 10px 10px 15px;
+            border: 1px solid gray;
+            cursor: pointer;
+        }
 
-      .h2:hover {
-        transform: scale(1.1);
-        filter: invert(1);
-        box-shadow: black 3px 5px 3px;
-        font-variant: small-caps;
-      }
+        .h2:hover {
+            transform: scale(1.1);
+            filter: invert(1);
+            box-shadow: green 3px 5px 3px;
+            font-variant: small-caps;
+        }
 
-      img {
-        position: absolute;
-        max-width: 200px;
-        margin: 10px;
-      }
+        img {
+            position: absolute;
+            max-width: 200px;
+            margin: 10px;
+        }
     </style>
-  </head>
-  <body>
+</head>
+<body>
 
-    <h2 class="h2">MICHELLE LIU</h2>
-    <input type="file" id="csvFile" accept=".csv">
+    <h2 class="h2">ABOUT ME</h2>
 
     <script>
-      document.getElementById('csvFile').addEventListener('change', function(event) {
-        const file = event.target.files[0];
-        if (file) {
-          const reader = new FileReader();
+        const urls = "urls.csv";
 
-          reader.onload = function(e) {
-            const csvData = e.target.result;
-            displayImagesFromCSV(csvData);
-          };
-
-          reader.readAsText(file);
-        }
-      });
-
-      function displayImagesFromCSV(csvData) {
-        const lines = csvData.split('\n');
-        lines.forEach((line, index) => {
-          const imageUrl = line.trim();
-          if (imageUrl) {
-            setTimeout(() => {
-              const img = document.createElement('img');
-              const text = document.createTextNode("ABOUT ME");
-
-              img.src = imageUrl;
-              img.alt = "Image from CSV";
-
-              img.style.top = Math.random() * (window.innerHeight - 200) + 'px';
-              img.style.left = Math.random() * (window.innerWidth - 200) + 'px';
-
-              document.body.appendChild(img);
-              document.body.appendChild(text);
-            }, index * 100);
-          }
+        document.querySelector('.h2').addEventListener('click', function() {
+            displayImagesFromCSV(urls);
         });
-      }
+
+        function displayImagesFromCSV(csvData) {
+            const lines = csvData.split('\n');
+            lines.forEach((line, index) => {
+                const imageUrl = line.trim();
+                let time = 100;
+                if (imageUrl) {
+                    setTimeout(() => {
+                        const img = document.createElement('img');
+                        img.style.border = "1px solid black";
+                        
+                        const p = document.createElement("p");
+                        p.textContent = "ABOUT ME";
+                        p.style.fontSize = "20px";
+                        p.style.fontWeight = "bold";
+                        p.style.backgroundColor = "#ffffff";
+                        p.style.border = "5px solid black";
+
+                        img.src = imageUrl;
+
+                        img.style.top = Math.random() * (window.innerHeight - 200) + 'px';
+                        img.style.left = Math.random() * (window.innerWidth - 200) + 'px';
+
+                        document.body.appendChild(img);
+                        document.body.appendChild(p);
+                    }, index * time);
+                }
+            });
+        }
     </script>
 
-  </body>
+</body>
 </html>
